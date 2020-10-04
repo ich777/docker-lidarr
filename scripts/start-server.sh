@@ -58,7 +58,7 @@ else
     if [ -z "$CUR_V" ]; then
         echo "---Lidarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux.tar.gz" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
@@ -70,7 +70,7 @@ else
     elif [ "$CUR_V" != "$LAT_V" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux.tar.gz" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
