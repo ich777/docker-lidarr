@@ -18,7 +18,7 @@ ENV USER="lidarr"
 
 RUN mkdir $DATA_DIR && \
 	mkdir /mnt/downloads && \
-    mkdir /mnt/movies && \
+    mkdir /mnt/music && \
 	useradd -d $DATA_DIR -s /bin/bash $USER && \
 	chown -R $USER $DATA_DIR && \
 	ulimit -n 2048
