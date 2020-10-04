@@ -1,5 +1,5 @@
 #!/bin/bash
-ARCH="arm64"
+ARCH="arm"
 if [ "$LIDARR_REL" == "latest" ]; then
     LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Lidarr | grep LATEST | cut -d '=' -f2)"
 elif [ "$LIDARR_REL" == "nightly" ]; then
