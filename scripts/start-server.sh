@@ -34,7 +34,7 @@ if [ "$LIDARR_REL" == "nightly" ]; then
         echo "---Lidarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://services.lidarr.audio/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
-            echo "---Successfully downloaded Radarr v$LAT_V---"
+            echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
             if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/ich777/Lidarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
@@ -51,7 +51,7 @@ if [ "$LIDARR_REL" == "nightly" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://services.lidarr.audio/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
-            echo "---Successfully downloaded Radarr v$LAT_V---"
+            echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
             if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/ich777/Lidarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
