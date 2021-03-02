@@ -7,7 +7,9 @@ Lidarr is a music collection manager for Usenet and BitTorrent users. It can mon
 
 **ATTENTION:** Don't change the port in the Lidarr config itself.
 
-**Migration:** If you are migrating from another Container please be sure to deltete the files/folders 'logs' and 'config.xml', don't forget to change the root folder for your movies to '/mnt/music' and select 'No, I'll Move the Files Myself'!
+**Migration:** If you are migrating from another Container please be sure to deltete the files/folders 'logs' and 'config.xml', don't forget to change the root folder for your music and select 'No, I'll Move the Files Myself'!
+
+#### **WARNING:** The main configuration of the paths has a performance and disk usage impact: **slow, I/O intensive moves and wasted disk space**. For a detailed guide to change that see https://trash-guides.info/hardlinks/#unraid .
 
 
 ## Env params
