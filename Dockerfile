@@ -3,7 +3,7 @@ FROM ich777/debian-baseimage
 LABEL maintainer="admin@minenet.at"
 
 RUN apt-get update && \
-	apt-get -y install --no-install-recommends mediainfo libicu67 libchromaprint-tools && \
+	apt-get -y install --no-install-recommends mediainfo libicu67 libchromaprint-tools libsqlite3-0 && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/lidarr"
