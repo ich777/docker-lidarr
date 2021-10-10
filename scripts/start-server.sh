@@ -1,4 +1,5 @@
 #!/bin/bash
+sleep infinity
 ARCH="x64"
 if [ "$LIDARR_REL" == "latest" ]; then
     LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Lidarr | grep LATEST | cut -d '=' -f2)"
