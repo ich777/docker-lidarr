@@ -1,5 +1,4 @@
 #!/bin/bash
-sleep infinity
 ARCH="x64"
 if [ "$LIDARR_REL" == "latest" ]; then
     LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Lidarr | grep LATEST | cut -d '=' -f2)"
@@ -27,6 +26,12 @@ fi
 
 if [ -f ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz ]; then
     rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+fi
+
+if [ -f ${DATA_DIR}/Lidarr/Lidarr.exe ]; then
+    echo "---Found deprecated version from Lidarr, updating to new version!---"
+    rm -rf ${DATA_DIR}/Lidarr
+    CUR_V=""
 fi
 
 echo "---Version Check---"
@@ -73,7 +78,7 @@ else
     if [ -z "$CUR_V" ]; then
         echo "---Lidarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/Lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
@@ -85,7 +90,7 @@ else
     elif [ "$CUR_V" != "$LAT_V" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux.tar.gz" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/Lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
@@ -113,8 +118,4 @@ chmod -R ${DATA_PERM} ${DATA_DIR}
 
 echo "---Starting Lidarr---"
 cd ${DATA_DIR}
-if [ "$LIDARR_REL" == "nightly" ]; then
-    ${DATA_DIR}/Lidarr/Lidarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
-else
-    /usr/bin/mono ${MONO_START_PARAMS} ${DATA_DIR}/Lidarr/Lidarr.exe -nobrowser -data=${DATA_DIR} ${START_PARAMS}
-fi
+${DATA_DIR}/Lidarr/Lidarr -nobrowser -data=${DATA_DIR} ${START_PARAMS}
