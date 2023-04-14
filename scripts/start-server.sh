@@ -21,6 +21,7 @@ if [ -z $LAT_V ]; then
         sleep infinity
     else
         echo "---Can't get latest version of Lidarr, falling back to v$CUR_V---"
+        LAT_V="$CUR_V"
     fi
 fi
 
@@ -39,16 +40,11 @@ if [ "$LIDARR_REL" == "nightly" ]; then
     if [ -z "$CUR_V" ]; then
         echo "---Lidarr not found, downloading and installing v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://services.lidarr.audio/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
-            rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
-            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/ich777/Lidarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
-                echo "---Successfully downloaded Lidarr v$LAT_V---"
-            else
-                echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
-                sleep infinity
-            fi
+            echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
+            sleep infinity
         fi
         mkdir ${DATA_DIR}/Lidarr
         tar -C ${DATA_DIR}/Lidarr --strip-components=1 -xf ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
@@ -56,21 +52,19 @@ if [ "$LIDARR_REL" == "nightly" ]; then
     elif [ "$CUR_V" != "$LAT_V" ]; then
         echo "---Version missmatch, installed v$CUR_V, downloading and installing latest v$LAT_V...---"
         cd ${DATA_DIR}
-        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://services.lidarr.audio/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
+        if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${LAT_V}&os=linux&runtime=netcore&arch=${ARCH}" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
             rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
-            if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/ich777/Lidarr/releases/download/${LAT_V}/v${LAT_V}-${ARCH}.tar.gz" ; then
-                echo "---Successfully downloaded Lidarr v$LAT_V---"
-            else
-                echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
-                sleep infinity
-            fi
+            echo "---Something went wrong, can't download Lidarr v$LAT_V, falling back to v$CUR_V!---"
+            EXIT_STATUS=1
         fi
-        rm -R ${DATA_DIR}/Lidarr
-        mkdir ${DATA_DIR}/Lidarr
-        tar -C ${DATA_DIR}/Lidarr --strip-components=1 -xf ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
-        rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+        if [ "${EXIT_STATUS}" != "1" ]; then
+            rm -R ${DATA_DIR}/Lidarr
+            mkdir ${DATA_DIR}/Lidarr
+            tar -C ${DATA_DIR}/Lidarr --strip-components=1 -xf ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+            rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+        fi
     elif [ "$CUR_V" == "$LAT_V" ]; then
         echo "---Lidarr v$CUR_V up-to-date---"
     fi
@@ -93,13 +87,15 @@ else
         if wget -q -nc --show-progress --progress=bar:force:noscroll -O ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz "https://github.com/Lidarr/Lidarr/releases/download/v${LAT_V}/Lidarr.master.${LAT_V}.linux-core-x64.tar.gz" ; then
             echo "---Successfully downloaded Lidarr v$LAT_V---"
         else
-            echo "---Something went wrong, can't download Lidarr v$LAT_V, putting container into sleep mode!---"
-            sleep infinity
+            echo "---Something went wrong, can't download Lidarr v$LAT_V, falling back to v$CUR_V!---"
+            EXIT_STATUS=1
         fi
-        rm -R ${DATA_DIR}/Lidarr
-        mkdir ${DATA_DIR}/Lidarr
-        tar -C ${DATA_DIR}/Lidarr --strip-components=1 -xf ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
-        rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+        if [ "${EXIT_STATUS}" != "1" ]; then
+            rm -R ${DATA_DIR}/Lidarr
+            mkdir ${DATA_DIR}/Lidarr
+            tar -C ${DATA_DIR}/Lidarr --strip-components=1 -xf ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+            rm ${DATA_DIR}/Lidarr-v$LAT_V.tar.gz
+        fi
     elif [ "$CUR_V" == "$LAT_V" ]; then
         echo "---Lidarr v$CUR_V up-to-date---"
     fi
