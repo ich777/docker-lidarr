@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.authors="admin@minenet.at"
 LABEL org.opencontainers.image.source="https://github.com/ich777/docker-lidarr"
 
 RUN apt-get update && \
-	apt-get -y install --no-install-recommends mediainfo libicu67 libchromaprint-tools libsqlite3-0 && \
+	apt-get -y install --no-install-recommends mediainfo libicu73 libchromaprint-tools libsqlite3-0 && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV DATA_DIR="/lidarr"
