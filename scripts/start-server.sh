@@ -1,9 +1,9 @@
 #!/bin/bash
 ARCH="x64"
 if [ "$LIDARR_REL" == "latest" ]; then
-    LAT_V="$(curl -s https://api.github.com/repos/Lidarr/Lidarr/releases/latest | jq -r '.tag_name' | cut -d 'v' -f2)"
+    LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Lidarr | grep LATEST | cut -d '=' -f2)"
 elif [ "$LIDARR_REL" == "nightly" ]; then
-    LAT_V="$(curl -s "https://lidarr.servarr.com/v1/update/nightly/changes?runtime=netcore&os=linux" | jq -r '.[0].version')"
+    LAT_V="$(wget -qO- https://github.com/ich777/versions/raw/master/Lidarr | grep NIGHTLY | cut -d '=' -f2)"
 else
     echo "---Version manually set to: v$LIDARR_REL---"
     LAT_V="$LIDARR_REL"
